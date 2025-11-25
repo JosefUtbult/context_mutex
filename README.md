@@ -35,6 +35,23 @@ report back the current context from a static function. Here is an example from 
 ARM cortex-m processor.
 
 ```rust
+use context_mutex::{Mutex, ContextInterface};
+
+#[derive(PartialEq, Eq, Debug, Clone, Copy)]
+enum Level {
+    Interrupt,
+    Kernel,
+    High,
+    Low,
+    Idle
+}
+
+impl PartialEq<usize> for Level {
+    fn eq(&self, other: &usize) -> bool {
+        *self as usize == *other
+    }
+}
+
 struct ContextHandler {}
 impl ContextInterface<Level> for ContextHandler {
     fn get_current_level() -> Level {
