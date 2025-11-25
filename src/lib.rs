@@ -4,10 +4,14 @@ use core::{cell::UnsafeCell, fmt, marker::PhantomData};
 /// processor, where only one context of each execution level is running at the time. The mutex
 /// security comes from that only a single thread can be executed at the same time, but
 /// interruptions can result in different context levels. This mutex only allows access during a
-/// single execution level
+/// single execution level.
+///
+/// **Note that this mutex type isn't safe/viable for multi-thread systems or
+/// operating systems that can yield in a context. It is mainly designed for use on
+/// single core systems with interrupts.**
 ///
 /// To create a context mutex, you will need a context type, preferably an enum with the different
-/// levels that is represented as an usize. The following is an example
+/// levels that is represented as an usize. The following is an example:
 ///
 /// ```
 /// #[derive(PartialEq, Eq, Debug, Clone, Copy)]
@@ -26,9 +30,9 @@ use core::{cell::UnsafeCell, fmt, marker::PhantomData};
 /// }
 /// ````
 ///
-/// You will also need an Interface type with the ContextInterface trait. This needs to be able to
+/// You will also need an Interface type with the `ContextInterface` trait. This needs to be able to
 /// report back the current context from a static function. Here is an example from an STM32H743
-/// ARM cortex-m processor
+/// ARM cortex-m processor:
 ///
 /// ```no_run
 /// use context_mutex::{Mutex, ContextInterface};
