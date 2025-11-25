@@ -12,3 +12,4 @@ dependencies = [
 [[package]]
 name = "general_mutex"
 version = "0.1.0"
+source = "git+https://github.com/JosefUtbult/general_mutex#de446a743e8a6ca687dabca1774521c7e6873f9b"

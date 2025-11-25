@@ -1,6 +1,6 @@
 use core::{cell::UnsafeCell, fmt, marker::PhantomData};
 
-/// A Mutex is a mutex type that relies on a target being compiled for a single core
+/// A context mutex is a mutex type that relies on a target being compiled for a single core
 /// processor, where only one context of each execution level is running at the time. The mutex
 /// security comes from that only a single thread can be executed at the same time, but
 /// interruptions can result in different context levels. This mutex only allows access during a
