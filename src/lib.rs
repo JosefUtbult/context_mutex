@@ -83,7 +83,7 @@ where
     }
 
     #[allow(dead_code)]
-    fn lock<R>(&self, f: impl FnOnce(&Data) -> R) -> R {
+    pub fn lock<R>(&self, f: impl FnOnce(&Data) -> R) -> R {
         let current_level = Interface::get_current_level();
         if current_level != LEVEL {
             panic!(
@@ -96,7 +96,7 @@ where
     }
 
     #[allow(dead_code)]
-    fn lock_mut<R>(&self, f: impl FnOnce(&mut Data) -> R) -> R {
+    pub fn lock_mut<R>(&self, f: impl FnOnce(&mut Data) -> R) -> R {
         let current_level = Interface::get_current_level();
         if current_level != LEVEL {
             panic!(
