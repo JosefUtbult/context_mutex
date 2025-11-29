@@ -135,6 +135,15 @@ where
     }
 }
 
+unsafe impl<Interface, Data, ContextType, const LEVEL: usize> Sync
+    for Mutex<Interface, Data, ContextType, LEVEL>
+where
+    ContextType: fmt::Debug + PartialEq<usize>,
+    Interface: ContextInterface<ContextType>,
+    Data: Sync,
+{
+}
+
 #[cfg(test)]
 mod test {
     use crate::{ContextInterface, Mutex};
@@ -157,16 +166,6 @@ mod test {
         fn get_current_level() -> Level {
             Level::Level0
         }
-    }
-
-    // As this mutex type isn't suited for multi-thread systems, this causes compilation to fail
-    // during testing. To circumvent this, implement a very unsafe Sync for the mutex type
-    unsafe impl<Interface, Data, ContextType, const LEVEL: usize> Sync
-        for Mutex<Interface, Data, ContextType, LEVEL>
-    where
-        ContextType: core::fmt::Debug + PartialEq<usize>,
-        Interface: ContextInterface<ContextType>,
-    {
     }
 
     const LEVEL0: usize = Level::Level0 as usize;
