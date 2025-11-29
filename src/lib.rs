@@ -73,7 +73,6 @@ where
     ContextType: fmt::Debug + PartialEq<usize>,
     Interface: ContextInterface<ContextType>,
 {
-    #[allow(dead_code)]
     pub const fn new(data: Data) -> Self {
         Self {
             data: UnsafeCell::new(data),
@@ -82,7 +81,6 @@ where
         }
     }
 
-    #[allow(dead_code)]
     pub fn lock<R>(&self, f: impl FnOnce(&Data) -> R) -> R {
         let current_level = Interface::get_current_level();
         if current_level != LEVEL {
@@ -95,7 +93,6 @@ where
         f(unsafe { &*self.data.get() })
     }
 
-    #[allow(dead_code)]
     pub fn lock_mut<R>(&self, f: impl FnOnce(&mut Data) -> R) -> R {
         let current_level = Interface::get_current_level();
         if current_level != LEVEL {
@@ -105,6 +102,14 @@ where
             );
         }
 
+        f(unsafe { &mut *self.data.get() })
+    }
+
+    pub unsafe fn unsafe_lock<R>(&self, f: impl FnOnce(&Data) -> R) -> R {
+        f(unsafe { &*self.data.get() })
+    }
+
+    pub unsafe fn unsafe_lock_mut<R>(&self, f: impl FnOnce(&mut Data) -> R) -> R {
         f(unsafe { &mut *self.data.get() })
     }
 }
