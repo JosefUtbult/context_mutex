@@ -52,8 +52,8 @@ impl PartialEq<usize> for Level {
     }
 }
 
-struct ContextHandler {}
-impl ContextInterface<Level> for ContextHandler {
+struct MyContextInterface {}
+impl ContextInterface<Level> for MyContextInterface {
     fn get_current_level() -> Level {
         // Read the ispr register to get the current level
         let ipsr: u32;

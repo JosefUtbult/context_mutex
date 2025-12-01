@@ -3,5 +3,8 @@ name = "context_mutex"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+tracking = []
+
 [dependencies]
 general_mutex = { git = "https://github.com/JosefUtbult/general_mutex" }
